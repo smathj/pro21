@@ -7,7 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class UserController extends MultiActionController {
-	/*public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+/*	
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String userID = "";
 		String passwd = "";
 		ModelAndView mav = new ModelAndView();
@@ -19,16 +20,22 @@ public class UserController extends MultiActionController {
 		mav.addObject("passwd", passwd);
 		mav.setViewName("result");
 		return mav;
-	}*/
+	}
+*/	
 	
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		String userID = "";
 		String passwd = "";
+		
 		ModelAndView mav = new ModelAndView();
+		
 		request.setCharacterEncoding("utf-8");
+		
 		userID = request.getParameter("userID");
 		passwd = request.getParameter("passwd");
-		String viewName=getViewName(request);
+		
+		String viewName=getViewName(request);	// *.do ì—ì„œ doë¥¼ ì œì™¸í•œ ì´ë¦„ ê°€ì ¸ì˜´
 		
 		mav.addObject("userID", userID);
 		mav.addObject("passwd", passwd);
@@ -39,9 +46,12 @@ public class UserController extends MultiActionController {
 	}
 
 	public ModelAndView memberInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		request.setCharacterEncoding("utf-8");
-	    ModelAndView mav=new ModelAndView();
-	    String id=request.getParameter("id");
+	    
+		ModelAndView mav=new ModelAndView();
+	    
+		String id=request.getParameter("id");
 	    String pwd=request.getParameter("pwd");
 	    String name=request.getParameter("name");
 	    String email=request.getParameter("email");
@@ -54,40 +64,52 @@ public class UserController extends MultiActionController {
 	    return mav;
 	}
 	
+	// ì¶”ê°€
+	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		request.setCharacterEncoding("utf-8");
+		
+		ModelAndView mav=new ModelAndView();
+		String viewName=getViewName(request);	// *.do ì—ì„œ doë¥¼ ì œì™¸í•œ ì´ë¦„ ê°€ì ¸ì˜´
+		
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
 	private  String getViewName(HttpServletRequest request) throws Exception {
-	      String contextPath = request.getContextPath();
-	      String uri = (String)request.getAttribute("javax.servlet.include.request_uri");
+	      
+		  String contextPath = request.getContextPath();
+	      
+		  String uri = (String)request.getAttribute("javax.servlet.include.request_uri");
+	      
 	      if(uri == null || uri.trim().equals("")) {
 	         uri = request.getRequestURI();
 	      }
 	      
-	      //http://localhost:8090/member/listMember.do·Î ¿äÃ»½Ã
 	      int begin = 0;  //
 	      if(!((contextPath==null)||("".equals(contextPath)))){
-	         begin = contextPath.length();  // ÀüÃ¼ ¿äÃ»¸í ÀÇ ±æÀÌ¸¦ ±¸ÇÔ
+	         begin = contextPath.length();
 	      }
 
 	      int end;
 	      if(uri.indexOf(";")!=-1){
-	         end=uri.indexOf(";");  //¿äÃ» uri¿¡ ';'°¡ ÀÖÀ» °æ¿ì ';'¹®ÀÚ À§Ä¡¸¦ ±¸ÇÔ
+	         end=uri.indexOf(";");
 	      }else if(uri.indexOf("?")!=-1){
-	         end=uri.indexOf("?");   //¿äÃ» uri¿¡ '?'°¡ ÀÖÀ» °æ¿ì '?' ¹®ÀÚ À§Ä¡¸¦ ±¸ÇÔ
+	         end=uri.indexOf("?");
 	      }else{
 	         end=uri.length();
 	      }
 
-	      //http://localhost:8090/member/listMember.do·Î ¿äÃ»½Ã ¸ÕÀú '.do'¸¦ Á¦°ÅÇÑ http://localhost:8090/member/listMember¸¦ ±¸ÇÑ ÈÄ,
-	      //´Ù½Ã http://localhost:8090/member/listMember¿¡¼­ ¿ª¼øÀ¸·Î Ã¹¹øÂ° '/' À§Ä¡¸¦ ±¸ÇÑ ÈÄ, ±× µÚÀÇ listMember¸¦ ±¸ÇÑ´Ù.
 	      String fileName=uri.substring(begin,end);
 	      if(fileName.indexOf(".")!=-1){
-	         fileName=fileName.substring(0,fileName.lastIndexOf("."));  //¿äÃ»¸í¿¡¼­ ¿ª¼øÀ¸·Î ÃÖÃÊ '.'ÀÇ À§Ä¡¸¦ ±¸ÇÑÈÄ, '.do' ¾Õ¿¡±îÁöÀÇ ¹®ÀÚ¿­À» ±¸ÇÔ
+	         fileName=fileName.substring(0,fileName.lastIndexOf("."));
 	      }
 	      if(fileName.lastIndexOf("/")!=-1){
-	         fileName=fileName.substring(fileName.lastIndexOf("/"),fileName.length()); //¿äÃ»¸í¿¡¼­ ¿ª¼øÀ¸·Î ÃÖÃÊ '/'ÀÇ À§Ä¡¸¦ ±¸ÇÑÈÄ, '/' ´ÙÀ½ºÎÅÍÀÇ ¹®ÀÚ¿­À» ±¸ÇÔ  
+	         fileName=fileName.substring(fileName.lastIndexOf("/"),fileName.length());  
 	      }
 	      return fileName;
 	   }
 
-	
+
 	
 }
